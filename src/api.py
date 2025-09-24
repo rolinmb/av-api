@@ -6,15 +6,7 @@ class AlphaVantageAPI:
     def __init__(self, avkey):
         self.avkey = avkey
     
-    def getDailyEquities(self, ticker, csvname):
-        url = f"{BASEURL}{EQUITIES}&symbol={ticker.upper()}&apikey={self.avkey}"
-        response = requests.get(url)
-        data = response.json()
-        ts = data.get("Time Series (Daily)")
-        if not ts:
-            print("src/api.py :: No equity time series data found.")
-            return
-        
+    def _writeOhlcvCSV(self, ts, csvname):
         sorted_dates = sorted(ts.keys())
         with open(csvname, "w", newline="") as f:
             writer = csv.writer(f)
@@ -32,6 +24,15 @@ class AlphaVantageAPI:
         
         print(f"src/api.py :: {csvname} saved successfully")
 
+    def getDailyEquities(self, ticker, csvname):
+        url = f"{BASEURL}{EQUITIES}&symbol={ticker.upper()}&apikey={self.avkey}"
+        response = requests.get(url)
+        data = response.json()
+        ts = data.get("Time Series (Daily)")
+        if not ts:
+            print("src/api.py :: No equity time series data found.")
+            return
+        self._writeOhlcvCSV(ts, csvname)
     
     def getCurrentOptionChain(self, ticker, csvname):
         url = f"{BASEURL}{OPTIONS}&symbol={ticker.upper()}&apikey={self.avkey}"
@@ -78,23 +79,7 @@ class AlphaVantageAPI:
         if not ts:
             print("src/api.py :: No forex time series data found.")
             return
-        
-        sorted_dates = sorted(ts.keys())
-        with open(csvname, "w", newline="") as f:
-            writer = csv.writer(f)
-            writer.writerow(["Date", "Open", "High", "Low", "Close", "Volume"])
-            for date in sorted_dates:
-                day = ts[date]
-                writer.writerow([
-                    date,
-                    day["1. open"],
-                    day["2. high"],
-                    day["3. low"],
-                    day["4. close"],
-                    day["5. volume"]
-                ])
-        
-        print(f"src/api.py :: {csvname} saved successfully")
+        self._writeOhlcvCSV(ts, csvname)
 
     def getDailyCrypto(self, symbol, csvname):
         url = f"{BASEURL}{CRYPTO}&symbol={symbol.upper()}&market=USD&apikey={self.avkey}"
@@ -104,28 +89,12 @@ class AlphaVantageAPI:
         if not ts:
             print("src/api.py :: No crypto time series data found.")
             return
-        
-        sorted_dates = sorted(ts.keys())
-        with open(csvname, "w", newline="") as f:
-            writer = csv.writer(f)
-            writer.writerow(["Date", "Open", "High", "Low", "Close", "Volume"])
-            for date in sorted_dates:
-                day = ts[date]
-                writer.writerow([
-                    date,
-                    day["1. open"],
-                    day["2. high"],
-                    day["3. low"],
-                    day["4. close"],
-                    day["5. volume"]
-                ])
-        
-        print(f"src/api.py :: {csvname} saved successfully")
+        self._writeOhlcvCSV(ts, csvname)
 
-    def _writeOtherCsv(self, data, csvname):
+    def _writeOtherCSV(self, data, csvname):
         series_data = data.get("data")
         if not series_data:
-            print("No bond data found")
+            print(f"src/api.py :: No data found to create {csvname}")
             return
         # Sort by date ascending
         series_data.sort(key=lambda x: x["date"])
@@ -194,6 +163,12 @@ class AlphaVantageAPI:
 
     def getDailySugar(self, csvname):
         url = f"{BASEURL}{SUGAR}&interval=daily&apikey={self.avkey}"
+        response = requests.get(url)
+        data = response.json()
+        self._writeOtherCSV(data, csvname)
+
+    def getDailyCoffee(self, csvname):
+        url = f"{BASEURL}{COFFEE}&interval=daily&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         self._writeOtherCSV(data, csvname)
