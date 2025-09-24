@@ -14,7 +14,7 @@ if __name__ == "__main__":
     ticker = "NVDA"
     api.getDailyEquities(ticker, f"data/{ticker}daily.csv")
     api.getWeeklyEquities(ticker, f"data/{ticker}weekly.csv")
-    api.getMonthyEquities(ticker, f"data/{ticker}monthly.csv")
+    api.getMonthlyEquities(ticker, f"data/{ticker}monthly.csv")
     api.getCurrentOptionChain(ticker, f"data/{ticker}chain.csv")
 
     date = "2025-09-22"

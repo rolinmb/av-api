@@ -26,8 +26,11 @@ class AlphaVantageAPI:
 
     def getDailyEquities(self, ticker, csvname):
         url = f"{BASEURL}{EQUITIESD}&symbol={ticker.upper()}&apikey={self.avkey}"
+        print(url)
         response = requests.get(url)
+        print(response)
         data = response.json()
+        print(data)
         ts = data.get("Time Series (Daily)")
         if not ts:
             print("src/api.py :: No equity daily time series data found.")
