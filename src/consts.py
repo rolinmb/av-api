@@ -1,4 +1,4 @@
-BASEURL = "https://www.alphavantage.co/query?"
+BASEURL = "https://www.alphavantage.co/query?function="
 # Functions
 EQUITIES = "TIME_SERIES_DAILY"
 OPTIONS = "HISTORICAL_OPTIONS"
