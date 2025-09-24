@@ -1,3 +1,5 @@
+DIRS = ["data", "img"]
+ALLOWEDMETRICS = ["implied_volatility", "delta", "gamma", "theta", "vega", "rho"]
 BASEURL = "https://www.alphavantage.co/query?function="
 # Functions
 EQUITIESD = "TIME_SERIES_DAILY"

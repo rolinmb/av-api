@@ -1,3 +1,4 @@
+from consts import ALLOWEDMETRICS
 import os
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -60,18 +61,22 @@ def _plotSurface(data, title, pngname):
     plt.close()
     print(f"src/utils.py :: {pngname} surface saved successfully")
 
-def createOptionSurface(csvname, pngnamec, pngnamep):
+def createOptionSurface(metric, csvname, pngnamec, pngnamep):
     if not os.path.exists(csvname):
         print(f"src/utils.py :: Could not find {csvname}")
         return
     
-    if "daily" in csvname or "weekly" in csvname or "monthly" in csvname:
+    if "daily" in csvname or "weekly" in csvname or "monthly" in csvname or "quarterly" in csvname or "annual" in csvname:
         print(f"src/utils.py :: Cannot create options surface from time series csv {csvname}")
         return
     
+    if metric not in ALLOWEDMETRICS:
+        print(f"src/utils.py :: Allowed surface metrics: implied_volatility, delta, gamma, theta, vega, rho")
+        return
+    
     chain_df = pd.read_csv(csvname, parse_dates=["expiration"])
-    chain_df["implied_volatility"] = pd.to_numeric(chain_df["implied_volatility"], errors="coerce")
-    chain_df = chain_df.dropna(subset=["implied_volatility", "strike", "expiration", "type"])
+    chain_df[metric] = pd.to_numeric(chain_df[metric], errors="coerce")
+    chain_df = chain_df.dropna(subset=[metric, "strike", "expiration", "type"])
 
     min_exp = chain_df["expiration"].min()
     chain_df["days_to_exp"] = (chain_df["expiration"] - min_exp).dt.days
@@ -79,5 +84,5 @@ def createOptionSurface(csvname, pngnamec, pngnamep):
     calls = chain_df[chain_df["type"].str.lower() == "call"]
     puts = chain_df[chain_df["type"].str.lower() == "put"]
 
-    _plotSurface(calls, "Call Option Implied Vol Surface", pngnamec)
-    _plotSurface(puts, "Put Option Implied Vol Surface", pngnamep)
+    _plotSurface(calls, f"Call Option {metric} Surface", pngnamec)
+    _plotSurface(puts, f"Put Option {metric} Surface", pngnamep)

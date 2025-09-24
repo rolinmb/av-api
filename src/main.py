@@ -1,9 +1,8 @@
 from api import AlphaVantageAPI
+from consts import DIRS
 from key import AVKEY
 from utils import *
 import os
-
-DIRS = ["data", "img"]
 
 if __name__ == "__main__":
     for d in DIRS:
@@ -16,9 +15,9 @@ if __name__ == "__main__":
     api.getDailyEquities(ticker, f"data/{ticker}daily.csv")
     api.getWeeklyEquities(ticker, f"data/{ticker}weekly.csv")
     api.getMonthyEquities(ticker, f"data/{ticker}monthly.csv")
+    api.getCurrentOptionChain(ticker, f"data/{ticker}chain.csv")
 
     date = "2025-09-22"
-    api.getCurrentOptionChain(ticker, f"data/{ticker}chain.csv")
     api.getHistoricalOptionChain(ticker, date, f"data/{ticker}{date}chain.csv")
 
     cfrom = "NZD"
@@ -36,19 +35,24 @@ if __name__ == "__main__":
     api.getBonds("daily", maturity, f"data/{maturity}daily.csv")
 
     api.getWti("daily", "data/WTIdaily.csv")
-    api.getBrent("daily", "data/BRENTdaily.csv")
-    api.getNatgas("daily", "data/NATGASdaily.csv")
-    api.getCopper("daily", "data/COPPERdaily.csv")
-    api.getAluminum("daily", "data/ALUMINUMdaily.csv")
-    api.getWheat("daily", "data/WHEATdaily.csv")
-    api.getCorn("daily", "data/CORNdaily.csv")
-    api.getCotton("daily", "data/COTTONdaily.csv")
-    api.getSugar("daily", "data/SUGARdaily.csv")
-    api.getCoffee("daily", "data/COFFEEdaily.csv")
-    api.getGci("monthly", "data/GCImonthly.csv")
+    api.getBrent("weekly", "data/BRENTweekly.csv")
+    api.getNatgas("monthly", "data/NATGASmonthly.csv")
+    api.getCopper("monthly", "data/COPPERmonthly.csv")
+    api.getAluminum("quarterly", "data/ALUMINUMquarterly.csv")
+    api.getWheat("annual", "data/WHEATannual.csv")
+    api.getCorn("monthly", "data/CORNmonthly.csv")
+    api.getCotton("quarterly", "data/COTTONquarterly.csv")
+    api.getSugar("annual", "data/SUGARannual.csv")
+    api.getCoffee("monthly", "data/COFFEEmonthly.csv")
+    api.getGci("quarterly", "data/GCIquarterly.csv")
 
     createSeriesChart(f"data/{cfrom}{cto}daily.csv", f"img/{cfrom}{cto}daily.png")
 
-    createSeriesChart("data/GCIdaily.csv", "img/GCIdaily.csv")
+    createSeriesChart("data/GCIquarterly.csv", "img/GCIquarterly.png")
 
-    createOptionSurface(f"data/{ticker}chain.csv", f"img/{ticker}civ.png", f"img/{ticker}piv.png")
+    createOptionSurface("implied_volatility", f"data/{ticker}chain.csv", f"img/{ticker}civ.png", f"img/{ticker}piv.png")
+    createOptionSurface("delta", f"data/{ticker}chain.csv", f"img/{ticker}cdelta.png", f"img/{ticker}pdelta.png")
+    createOptionSurface("gamma", f"data/{ticker}chain.csv", f"img/{ticker}cgamma.png", f"img/{ticker}pgamma.png")
+    createOptionSurface("theta", f"data/{ticker}chain.csv", f"img/{ticker}ctheta.png", f"img/{ticker}ptheta.png")
+    createOptionSurface("vega", f"data/{ticker}chain.csv", f"img/{ticker}cvega.png", f"img/{ticker}pvega.png")
+    createOptionSurface("rho", f"data/{ticker}chain.csv", f"img/{ticker}crho.png", f"img/{ticker}prho.png")
