@@ -13,17 +13,24 @@ if __name__ == "__main__":
     api = AlphaVantageAPI(AVKEY)
 
     ticker = "NVDA"
-    date = "2025-09-09"
     api.getDailyEquities(ticker, f"data/{ticker}daily.csv")
+    api.getWeeklyEquities(ticker, f"data/{ticker}weekly.csv")
+    api.getMonthyEquities(ticker, f"data/{ticker}monthly.csv")
+
+    date = "2025-09-22"
     api.getCurrentOptionChain(ticker, f"data/{ticker}chain.csv")
     api.getHistoricalOptionChain(ticker, date, f"data/{ticker}{date}chain.csv")
 
     cfrom = "NZD"
     cto = "USD"
     api.getDailyForex(cfrom, cto, f"data/{cfrom}{cto}daily.csv")
+    api.getWeeklyForex(cfrom, cto, f"data/{cfrom}{cto}weekly.csv")
+    api.getMonthlyForex(cfrom, cto, f"data/{cfrom}{cto}monthly.csv")
 
     symbol = "DOGE"
     api.getDailyCrypto(symbol, f"data/{symbol}daily.csv")
+    api.getWeeklyCrypto(symbol, f"data/{symbol}weekly.csv")
+    api.getMonthlyCrypto(symbol, f"data/{symbol}monthly.csv")
 
     maturity = "10years"
     api.getBonds("daily", maturity, f"data/{maturity}daily.csv")
@@ -38,10 +45,10 @@ if __name__ == "__main__":
     api.getCotton("daily", "data/COTTONdaily.csv")
     api.getSugar("daily", "data/SUGARdaily.csv")
     api.getCoffee("daily", "data/COFFEEdaily.csv")
-    api.getGci("daily", "data/GCIdaily.csv")
+    api.getGci("monthly", "data/GCImonthly.csv")
 
     createSeriesChart(f"data/{cfrom}{cto}daily.csv", f"img/{cfrom}{cto}daily.png")
-    
+
     createSeriesChart("data/GCIdaily.csv", "img/GCIdaily.csv")
 
     createOptionSurface(f"data/{ticker}chain.csv", f"img/{ticker}civ.png", f"img/{ticker}piv.png")

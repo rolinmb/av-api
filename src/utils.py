@@ -10,17 +10,17 @@ def createSeriesChart(csvname, pngname):
         return
 
     if "chain" in csvname:
-        print(f"src/util.py :: Cannot create series chart from option chain csv {csvname}")
+        print(f"src/util.py :: Cannot create time series chart from option chain csv {csvname}")
         return
     
     series_df = pd.read_csv(csvname, parse_dates=["Date"])
     print(series_df.head())
     plt.figure(figsize=(10, 5))
-    if "Close" in series_df.columns: # We have OHLCV Data
+    if "Close" in series_df.columns: # We have [O,H,L,C,V] Data
         plt.plot(series_df["Date"], series_df["Close"], label="Close", color="blue")
         plt.title(csvname)
         plt.ylabel("Close Price")
-    elif "Value" in series_df.columns: # We have simpler [Date, Value] pairs
+    elif "Value" in series_df.columns: # We have simpler [Date, Value] Data
         plt.plot(series_df["Date"], series_df["Value"], label="Value", color="green")
         plt.title(csvname)
         plt.ylabel("Price")
@@ -65,8 +65,8 @@ def createOptionSurface(csvname, pngnamec, pngnamep):
         print(f"src/utils.py :: Could not find {csvname}")
         return
     
-    if "daily" in csvname:
-        print(f"src/utils.py :: Cannot create options urface from time series csv {csvname}")
+    if "daily" in csvname or "weekly" in csvname or "monthly" in csvname:
+        print(f"src/utils.py :: Cannot create options surface from time series csv {csvname}")
         return
     
     chain_df = pd.read_csv(csvname, parse_dates=["expiration"])
