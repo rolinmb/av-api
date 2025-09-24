@@ -25,12 +25,32 @@ class AlphaVantageAPI:
         print(f"src/api.py :: {csvname} saved successfully")
 
     def getDailyEquities(self, ticker, csvname):
-        url = f"{BASEURL}{EQUITIES}&symbol={ticker.upper()}&apikey={self.avkey}"
+        url = f"{BASEURL}{EQUITIESD}&symbol={ticker.upper()}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         ts = data.get("Time Series (Daily)")
         if not ts:
-            print("src/api.py :: No equity time series data found.")
+            print("src/api.py :: No equity daily time series data found.")
+            return
+        self._writeOhlcvCSV(ts, csvname)
+
+    def getWeeklyEquities(self, ticker, csvname):
+        url = f"{BASEURL}{EQUITIESW}&symbol={ticker.upper()}&apikey={self.avkey}"
+        response = requests.get(url)
+        data = response.json()
+        ts = data.get("Weekly Adjusted Time Series")
+        if not ts:
+            print("src/api.py :: No equity weekly time series data found.")
+            return
+        self._writeOhlcvCSV(ts, csvname)
+    
+    def getMonthlyEquities(self, ticker, csvname):
+        url = f"{BASEURL}{EQUITIESM}&symbol={ticker.upper()}&apikey={self.avkey}"
+        response = requests.get(url)
+        data = response.json()
+        ts = data.get("Monthly Adjusted Time Series")
+        if not ts:
+            print("src/api.py :: No equity monthly time series data found.")
             return
         self._writeOhlcvCSV(ts, csvname)
     
@@ -72,22 +92,62 @@ class AlphaVantageAPI:
         print(f"src/api.py :: {csvname} saved successfully!")
 
     def getDailyForex(self, cfrom, cto, csvname):
-        url = f"{BASEURL}{FOREX}&from_symbol={cfrom.upper()}&to_symbol={cto.upper()}&apikey={self.avkey}"
+        url = f"{BASEURL}{FOREXD}&from_symbol={cfrom.upper()}&to_symbol={cto.upper()}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         ts = data.get("Time Series FX (Daily)")
         if not ts:
-            print("src/api.py :: No forex time series data found.")
+            print("src/api.py :: No forex daily time series data found.")
+            return
+        self._writeOhlcvCSV(ts, csvname)
+
+    def getWeeklyForex(self, cfrom, cto, csvname):
+        url = f"{BASEURL}{FOREXW}&from_symbol={cfrom.upper()}&to_symbol={cto.upper()}&apikey={self.avkey}"
+        response = requests.get(url)
+        data = response.json()
+        ts = data.get("Time Series FX (Weekly)")
+        if not ts:
+            print("src/api.py :: No forex weekly time series data found.")
+            return
+        self._writeOhlcvCSV(ts, csvname)
+    
+    def getMonthlyForex(self, cfrom, cto, csvname):
+        url = f"{BASEURL}{FOREXW}&from_symbol={cfrom.upper()}&to_symbol={cto.upper()}&apikey={self.avkey}"
+        response = requests.get(url)
+        data = response.json()
+        ts = data.get("Time Series FX (Monthly)")
+        if not ts:
+            print("src/api.py :: No forex weekly time series data found.")
             return
         self._writeOhlcvCSV(ts, csvname)
 
     def getDailyCrypto(self, symbol, csvname):
-        url = f"{BASEURL}{CRYPTO}&symbol={symbol.upper()}&market=USD&apikey={self.avkey}"
+        url = f"{BASEURL}{CRYPTOD}&symbol={symbol.upper()}&market=USD&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         ts = data.get("Time Series (Digital Currency Daily)")
         if not ts:
-            print("src/api.py :: No crypto time series data found.")
+            print("src/api.py :: No crypto daily time series data found.")
+            return
+        self._writeOhlcvCSV(ts, csvname)
+
+    def getWeeklyCrypto(self, symbol, csvname):
+        url = f"{BASEURL}{CRYPTOW}&symbol={symbol.upper()}&market=USD&apikey={self.avkey}"
+        response = requests.get(url)
+        data = response.json()
+        ts = data.get("Time Series (Digital Currency Weekly)")
+        if not ts:
+            print("src/api.py :: No crypto weekly time series data found.")
+            return
+        self._writeOhlcvCSV(ts, csvname)
+
+    def getMonthlyCrypto(self, symbol, csvname):
+        url = f"{BASEURL}{CRYPTOM}&symbol={symbol.upper()}&market=USD&apikey={self.avkey}"
+        response = requests.get(url)
+        data = response.json()
+        ts = data.get("Time Series (Digital Currency Monthly)")
+        if not ts:
+            print("src/api.py :: No crypto monthly time series data found.")
             return
         self._writeOhlcvCSV(ts, csvname)
 
