@@ -122,57 +122,84 @@ class AlphaVantageAPI:
         
         print(f"src/api.py :: {csvname} saved successfully")
 
+    def _writeOtherCsv(self, data, csvname):
+        series_data = data.get("data")
+        if not series_data:
+            print("No bond data found")
+            return
+        # Sort by date ascending
+        series_data.sort(key=lambda x: x["date"])
+
+        with open(csvname, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(["Date", "Value"])
+            for row in series_data:
+                writer.writerow([row["date"], row["value"]])
+
+        print(f"src/api.py :: {csvname} saved successfully!")
+
     def getDailyBonds(self, maturity, csvname):
         url = f"{BASEURL}{BONDS}&interval=daily&maturity={maturity}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
+        self._writeOtherCSV(data, csvname)
 
     def getDailyWti(self, csvname):
         url = f"{BASEURL}{WTI}&interval=daily&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
+        self._writeOtherCSV(data, csvname)
 
     def getDailyBrent(self, csvname):
         url = f"{BASEURL}{BRENT}&interval=daily&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
+        self._writeOtherCSV(data, csvname)
 
     def getDailyNatgas(self, csvname):
         url = f"{BASEURL}{NATGAS}&interval=daily&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
+        self._writeOtherCSV(data, csvname)
 
     def getDailyCopper(self, csvname):
         url = f"{BASEURL}{COPPER}&interval=daily&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
+        self._writeOtherCSV(data, csvname)
 
     def getDailyAluminum(self, csvname):
         url = f"{BASEURL}{ALUMINUM}&interval=daily&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
+        self._writeOtherCSV(data, csvname)
 
     def getDailyWheat(self, csvname):
         url = f"{BASEURL}{WHEAT}&interval=daily&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
+        self._writeOtherCSV(data, csvname)
 
     def getDailyCorn(self, csvname):
         url = f"{BASEURL}{CORN}&interval=daily&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
+        self._writeOtherCSV(data, csvname)
 
     def getDailyCotton(self, csvname):
         url = f"{BASEURL}{COTTON}&interval=daily&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
+        self._writeOtherCSV(data, csvname)
 
     def getDailySugar(self, csvname):
         url = f"{BASEURL}{SUGAR}&interval=daily&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
+        self._writeOtherCSV(data, csvname)
 
     def getDailyGci(self, csvname):
         url = f"{BASEURL}{GCI}&interval=daily&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
+        self._writeOtherCSV(data, csvname)
