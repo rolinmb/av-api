@@ -107,74 +107,74 @@ class AlphaVantageAPI:
 
         print(f"src/api.py :: {csvname} saved successfully!")
 
-    def getDailyBonds(self, maturity, csvname):
-        url = f"{BASEURL}{BONDS}&interval=daily&maturity={maturity}&apikey={self.avkey}"
+    def getBonds(self, interval, maturity, csvname):
+        url = f"{BASEURL}{BONDS}&interval={interval}&maturity={maturity}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         self._writeOtherCSV(data, csvname)
 
-    def getDailyWti(self, csvname):
-        url = f"{BASEURL}{WTI}&interval=daily&apikey={self.avkey}"
+    def getWti(self, interval, csvname):
+        url = f"{BASEURL}{WTI}&interval={interval}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         self._writeOtherCSV(data, csvname)
 
-    def getDailyBrent(self, csvname):
-        url = f"{BASEURL}{BRENT}&interval=daily&apikey={self.avkey}"
+    def getBrent(self, interval, csvname):
+        url = f"{BASEURL}{BRENT}&interval={interval}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         self._writeOtherCSV(data, csvname)
 
-    def getDailyNatgas(self, csvname):
-        url = f"{BASEURL}{NATGAS}&interval=daily&apikey={self.avkey}"
+    def getNatgas(self, interval, csvname):
+        url = f"{BASEURL}{NATGAS}&interval={interval}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         self._writeOtherCSV(data, csvname)
 
-    def getDailyCopper(self, csvname):
-        url = f"{BASEURL}{COPPER}&interval=daily&apikey={self.avkey}"
+    def getCopper(self, interval, csvname):
+        url = f"{BASEURL}{COPPER}&interval={interval}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         self._writeOtherCSV(data, csvname)
 
-    def getDailyAluminum(self, csvname):
-        url = f"{BASEURL}{ALUMINUM}&interval=daily&apikey={self.avkey}"
+    def getAluminum(self, interval, csvname):
+        url = f"{BASEURL}{ALUMINUM}&interval={interval}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         self._writeOtherCSV(data, csvname)
 
-    def getDailyWheat(self, csvname):
-        url = f"{BASEURL}{WHEAT}&interval=daily&apikey={self.avkey}"
+    def getWheat(self, interval, csvname):
+        url = f"{BASEURL}{WHEAT}&interval={interval}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         self._writeOtherCSV(data, csvname)
 
-    def getDailyCorn(self, csvname):
-        url = f"{BASEURL}{CORN}&interval=daily&apikey={self.avkey}"
+    def getCorn(self, interval, csvname):
+        url = f"{BASEURL}{CORN}&interval={interval}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         self._writeOtherCSV(data, csvname)
 
-    def getDailyCotton(self, csvname):
-        url = f"{BASEURL}{COTTON}&interval=daily&apikey={self.avkey}"
+    def getCotton(self, interval, csvname):
+        url = f"{BASEURL}{COTTON}&interval={interval}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         self._writeOtherCSV(data, csvname)
 
-    def getDailySugar(self, csvname):
-        url = f"{BASEURL}{SUGAR}&interval=daily&apikey={self.avkey}"
+    def getSugar(self, interval, csvname):
+        url = f"{BASEURL}{SUGAR}&interval={interval}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         self._writeOtherCSV(data, csvname)
 
-    def getDailyCoffee(self, csvname):
-        url = f"{BASEURL}{COFFEE}&interval=daily&apikey={self.avkey}"
+    def getCoffee(self, interval, csvname):
+        url = f"{BASEURL}{COFFEE}&interval={interval}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         self._writeOtherCSV(data, csvname)
 
-    def getDailyGci(self, csvname):
-        url = f"{BASEURL}{GCI}&interval=daily&apikey={self.avkey}"
+    def getGci(self, interval, csvname):
+        url = f"{BASEURL}{GCI}&interval={interval}&apikey={self.avkey}"
         response = requests.get(url)
         data = response.json()
         self._writeOtherCSV(data, csvname)
